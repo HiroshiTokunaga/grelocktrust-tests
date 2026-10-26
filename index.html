@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greylock Trust | Book your session</title>
+<meta name="description" content="One-on-one help keeping your phone, accounts and money safe from scams. A Williams student advisor, trained by Williams alumni, over Zoom.">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="config.js"></script>
+<script src="main.js" defer></script>
+</head>
+<body>
+
+<a class="skip" href="#book">Skip to booking</a>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="./">
+      <img src="images/logo.png" alt="" width="44" height="44">
+      <span>Greylock Trust</span>
+    </a>
+    <a class="btn btn-small" href="#book">Book a session</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero: who we are and what we do, in one breath -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <h1>Keep your phone, your accounts and your money safe from scams.</h1>
+        <p class="lead">A Williams student advisor, trained by Williams alumni, sits with you over Zoom and walks you through it, one step at a time, in plain English.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#book">Choose a time</a>
+          <p class="hero-fact">About 90 minutes over Zoom. $200.</p>
+        </div>
+      </div>
+      <figure class="hero-photo">
+        <img src="images/session.jpg" alt="A younger woman and an older woman looking at a laptop together at a table" width="1400" height="933">
+      </figure>
+    </div>
+  </section>
+
+  <!-- Intro video: hidden until a video link is set in config.js -->
+  <section class="video" id="video" hidden>
+    <div class="wrap narrow">
+      <h2>A word from our founders</h2>
+      <div class="video-frame" id="videoFrame"></div>
+    </div>
+  </section>
+
+  <!-- What happens in the session -->
+  <section class="session">
+    <div class="wrap narrow">
+      <h2>What we cover in your first session</h2>
+      <p class="section-lead">We go through the four places where most trouble starts. You make each change on your own phone and computer while your advisor explains what it does and why it matters.</p>
+
+      <ol class="agenda">
+        <li>
+          <h3>Your phone</h3>
+          <p>Face ID or fingerprint, automatic updates, and "Find My" so a lost or stolen phone can be locked or erased.</p>
+        </li>
+        <li>
+          <h3>Your web browser</h3>
+          <p>Warnings for fake websites, safer connections, and turning off the pop-up notifications scammers like to use.</p>
+        </li>
+        <li>
+          <h3>Your important accounts</h3>
+          <p>Email, bank, shopping and payment apps like Venmo or Zelle. We add a second check at login and set up alerts so you hear about any purchase or transfer right away.</p>
+        </li>
+        <li>
+          <h3>Your passwords</h3>
+          <p>We find any passwords that are weak, repeated, or have shown up in a data breach, and help you fix the ones that matter most.</p>
+        </li>
+      </ol>
+
+      <p class="aside">You are never required to change anything. And you can ask about anything else that worries you along the way.</p>
+    </div>
+  </section>
+
+  <!-- Who you'll talk to -->
+  <section class="people">
+    <div class="wrap people-grid">
+      <figure class="people-photo">
+        <img src="images/advisor.jpg" alt="A young man taking notes beside an older man working on a laptop" width="1200" height="800" loading="lazy">
+      </figure>
+      <div class="people-text">
+        <h2>Who you'll be talking to</h2>
+        <p>Your advisor is a Williams College student. Advisors are chosen for patience and for explaining things clearly, and they are trained by Williams alumni who lead Greylock Trust.</p>
+        <p>We don't sell security software. We recommend well-known services when they help, and we set them up with you.</p>
+        <p>After your first session, we offer a one-hour check-up every six months to keep things current.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The promise: the one bold element on the page -->
+  <section class="promise">
+    <div class="wrap narrow">
+      <p class="promise-price">$200 for your first session.</p>
+      <p class="promise-line">If it wasn't worth it to you, we refund the full amount.</p>
+      <p class="promise-detail">Just reply to your confirmation email or write to us. The same applies if you need to cancel before your session.</p>
+    </div>
+  </section>
+
+  <!-- Booking -->
+  <section class="book" id="book" tabindex="-1">
+    <div class="wrap">
+      <div class="narrow">
+        <h2>Book your session</h2>
+        <ol class="steps">
+          <li><strong>Pick a day and time</strong> that suits you in the calendar below.</li>
+          <li><strong>Pay $200 securely.</strong> Your card is handled by Stripe, a payment company used by millions of businesses. We never see your card number.</li>
+          <li><strong>Watch for an email</strong> with your Zoom link and your advisor's name.</li>
+        </ol>
+      </div>
+
+      <div class="calendar" id="calendar">
+        <!-- Filled in by main.js from config.js -->
+        <div class="calendar-fallback" id="calendarFallback">
+          <p class="fallback-title">Online booking is opening soon.</p>
+          <p id="fallbackText">To book now, please email us and we'll find a time with you.</p>
+        </div>
+      </div>
+
+      <div class="booked" id="booked" hidden role="status">
+        <h3>You're booked. Thank you.</h3>
+        <p>A confirmation email with your Zoom link is on its way. If you don't see it within a few minutes, please check your spam folder or write to us.</p>
+      </div>
+
+      <p class="help-line" id="helpLine">Prefer to book by email? <span id="helpEmail">Write to us</span> and we'll set it up for you.</p>
+    </div>
+  </section>
+
+  <!-- Questions -->
+  <section class="faq">
+    <div class="wrap narrow">
+      <h2>Common questions</h2>
+
+      <details>
+        <summary>Do I need to be good with technology?</summary>
+        <p>No. Most of our clients aren't. If you can join a Zoom call, we can take it from there. If Zoom itself is new to you, tell us when you book and we'll help you get connected first.</p>
+      </details>
+
+      <details>
+        <summary>What do I need for the session?</summary>
+        <p>The phone and computer you use every day, a charger, and about 90 minutes. It helps to know how to sign in to your email and bank accounts.</p>
+      </details>
+
+      <details>
+        <summary>Will this mean I can never be scammed?</summary>
+        <p>No one can promise that, and we won't. What we can do is close the most common gaps and help you recognize warning signs, so you're much better protected and know what to do if something looks wrong.</p>
+      </details>
+
+      <details>
+        <summary>How do I know this email or link is really from you?</summary>
+        <p>Good question to ask. We will never ask for your passwords, and we will never ask you to send money anywhere other than the $200 booking payment on this page. If something feels off, write to us directly before clicking.</p>
+      </details>
+
+      <details>
+        <summary>How do refunds work?</summary>
+        <p>Tell us you'd like a refund, by email or by replying to your confirmation, and we return the full $200 to the card you paid with. Banks usually take 5 to 10 business days to show it.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <p class="foot-brand">Greylock Trust</p>
+    <p id="footEmail"></p>
+    <p class="foot-small">&copy; 2026 Greylock Trust</p>
+  </div>
+</footer>
+
+</body>
+</html>
