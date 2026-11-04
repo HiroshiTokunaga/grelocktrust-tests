@@ -8,7 +8,7 @@ Open `config.js`. It has three settings:
 
 - `calendlyUrl`: the Calendly link for the onboarding event. While it is empty, the page asks people to email instead.
 - `contactEmail`: the address shown to clients.
-- `videoUrl`: an embed link for the intro video. Empty means the video section stays hidden.
+- `videoUrl`: an embed link for the intro video. Empty shows a "coming soon" box.
 
 Edit, save, commit and push. GitHub Pages updates the live site in about a minute.
 
@@ -17,7 +17,7 @@ Edit, save, commit and push. GitHub Pages updates the live site in about a minut
 - `index.html`: all the page text.
 - `style.css`: the look. Body text is 20px on purpose, for older readers.
 - `main.js`: fills in the calendar, email and video from `config.js`, and shows a thank-you note after a booking.
-- `images/`: logo and two stock photos (from the original greylocktrust.com repository). Replace them with real photos of advisors when you have them.
+- `images/`: the logo and the landing photo (`hero.jpg`).
 
 ## Hosting
 

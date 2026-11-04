@@ -30,15 +30,15 @@
     helpLine.hidden = true;
   }
 
-  /* Intro video, only when a link is set */
+  /* Intro video: replaces the "coming soon" placeholder once a link is set */
   if (video) {
     var frame = document.createElement('iframe');
     frame.src = video;
     frame.title = 'Introduction to Greylock Trust';
     frame.allow = 'fullscreen; picture-in-picture';
     frame.loading = 'lazy';
+    document.getElementById('videoPlaceholder').remove();
     document.getElementById('videoFrame').appendChild(frame);
-    document.getElementById('video').hidden = false;
   }
 
   /* Calendly calendar, only when a link is set */
