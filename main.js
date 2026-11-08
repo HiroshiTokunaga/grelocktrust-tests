@@ -75,33 +75,18 @@
   }
   buildCalendar('welcome');
   buildCalendar('full');
+  buildCalendar('gift');
 
-  /* Then load Calendly's script once */
-  var calendlyReady = false;
-  var waiting = [];
-  function withCalendly(fn) {
-    if (calendlyReady) { fn(); return; }
-    waiting.push(fn);
-  }
+  /* Then load Calendly's script once; it fills in every calendar above */
   if (links.welcome || links.full || links.gift) {
-    var css = document.createElement('link');
-    css.rel = 'stylesheet';
-    css.href = 'https://assets.calendly.com/assets/external/widget.css';
-    document.head.appendChild(css);
-
     var s = document.createElement('script');
     s.src = 'https://assets.calendly.com/assets/external/widget.js';
     s.async = true;
-    s.onload = function () {
-      calendlyReady = true;
-      waiting.splice(0).forEach(function (fn) { fn(); });
-    };
     document.body.appendChild(s);
   }
 
   /* The switch between Welcome Session and Digital Safety Session */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.switch-option'));
-  var lastBooked = 'welcome';
   function choose(kind, focusTab) {
     tabs.forEach(function (tab) {
       var on = tab.getAttribute('data-session') === kind;
@@ -114,7 +99,6 @@
       panel.setAttribute('aria-hidden', on ? 'false' : 'true');
       if (on && focusTab) tab.focus();
     });
-    lastBooked = kind;
   }
   tabs.forEach(function (tab, i) {
     tab.addEventListener('click', function () { choose(tab.getAttribute('data-session')); });
@@ -127,13 +111,16 @@
   });
   choose('welcome');
 
-  /* Gift: opens the gift calendar in a pop-up window over the page */
+  /* Gift: the button opens the gift calendar in place, below the steps */
   var giftButton = document.getElementById('giftButton');
-  var giftUrl = urlFor('gift');
-  if (giftUrl) {
+  var giftPanel = document.getElementById('giftPanel');
+  if (links.gift) {
     giftButton.addEventListener('click', function () {
-      lastBooked = 'gift';
-      withCalendly(function () { window.Calendly.initPopupWidget({ url: giftUrl }); });
+      giftPanel.classList.remove('is-off');
+      giftPanel.setAttribute('aria-hidden', 'false');
+      giftButton.setAttribute('aria-expanded', 'true');
+      giftButton.hidden = true;
+      giftPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   } else {
     giftButton.hidden = true;
@@ -141,12 +128,16 @@
     document.querySelector('.gift-note').hidden = true;
   }
 
-  /* When Calendly reports a finished booking, show a plain thank-you */
+  /* When Calendly reports a finished booking, show a thank-you under the
+     calendar it came from */
   window.addEventListener('message', function (e) {
     if (e.origin !== 'https://calendly.com') return;
-    if (e.data && e.data.event === 'calendly.event_scheduled') {
-      document.getElementById(lastBooked === 'gift' ? 'giftBooked' : 'booked').hidden = false;
-    }
+    if (!(e.data && e.data.event === 'calendly.event_scheduled')) return;
+    var fromGift = false;
+    document.querySelectorAll('[data-calendar="gift"] iframe').forEach(function (f) {
+      if (f.contentWindow === e.source) fromGift = true;
+    });
+    document.getElementById(fromGift ? 'giftBooked' : 'booked').hidden = false;
   });
 
   /* Hero buttons: "Protect myself" opens the Welcome Session; both move keyboard focus to their section */
