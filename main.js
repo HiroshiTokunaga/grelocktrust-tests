@@ -12,10 +12,8 @@
     var u = (links[kind] || '').trim();
     if (!u) return '';
     var sep = u.indexOf('?') === -1 ? '?' : '&';
-    // Calendly look: show the event details panel, hide the cookie banner,
-    // white background, navy text and buttons.
-    return u + sep + 'hide_gdpr_banner=1' +
-      '&background_color=ffffff&text_color=1e3145&primary_color=1e3145';
+    // Calendly look: white background, navy text and buttons.
+    return u + sep + 'background_color=ffffff&text_color=1e3145&primary_color=1e3145';
   }
 
   function mailLink(text) {
@@ -69,13 +67,26 @@
     var widget = document.createElement('div');
     widget.className = 'calendly-inline-widget';
     widget.setAttribute('data-url', url);
-    // Calendly grows or shrinks the calendar to fit its content
-    widget.setAttribute('data-resize', 'true');
     holder.appendChild(widget);
   }
   buildCalendar('welcome');
   buildCalendar('full');
   buildCalendar('gift');
+
+  /* Calendly marks its calendars to load only when scrolled near. Load them
+     right away instead, so they are ready by the time a visitor gets there. */
+  if ('MutationObserver' in window) {
+    new MutationObserver(function (changes) {
+      changes.forEach(function (c) {
+        c.addedNodes.forEach(function (n) {
+          if (n.tagName === 'IFRAME' && n.getAttribute('loading') === 'lazy') {
+            n.setAttribute('loading', 'eager');
+            n.src = n.src;
+          }
+        });
+      });
+    }).observe(document.querySelector('main'), { childList: true, subtree: true });
+  }
 
   /* Then load Calendly's script once; it fills in every calendar above */
   if (links.welcome || links.full || links.gift) {
