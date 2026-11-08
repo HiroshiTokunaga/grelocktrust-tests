@@ -236,7 +236,8 @@ button.btn { border: 0; cursor: pointer; font-family: inherit; line-height: inhe
   border: solid var(--gold-btn); border-width: 0 3px 3px 0;
   transform: rotate(45deg);
 }
-@media (max-width: 760px) { .outcomes ul { grid-template-columns: 1fr; } }
+#panel-welcome .outcomes ul { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 760px) { .outcomes ul, #panel-welcome .outcomes ul { grid-template-columns: 1fr; } }
 
 /* Fixed heights (Calendly's own default is 700px), so the page doesn't jump when a calendar loads */
 .calendar .calendly-inline-widget { min-width: 320px; height: 700px; }
