@@ -225,6 +225,19 @@ button.btn { border: 0; cursor: pointer; font-family: inherit; line-height: inhe
 }
 .panel-note { max-width: var(--narrow); margin: 12px 0 0; font-size: 18px; color: var(--muted); }
 
+/* What the client will have after the full session */
+.outcomes { max-width: 920px; margin: 20px 0 20px; }
+.outcomes h3 { font-family: var(--sans); font-size: 19px; font-weight: 600; margin-bottom: 10px; }
+.outcomes ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 32px; }
+.outcomes li { position: relative; padding-left: 30px; font-size: 18px; line-height: 1.45; color: var(--ink); }
+.outcomes li::before {
+  content: ""; position: absolute; left: 2px; top: .3em;
+  width: 7px; height: 13px;
+  border: solid var(--gold-btn); border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+@media (max-width: 760px) { .outcomes ul { grid-template-columns: 1fr; } }
+
 /* Fixed heights (Calendly's own default is 700px), so the page doesn't jump when a calendar loads */
 .calendar .calendly-inline-widget { min-width: 320px; height: 700px; }
 .calendar-fallback { padding: 32px 0; }
