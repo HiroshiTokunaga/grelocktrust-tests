@@ -12,7 +12,10 @@
     var u = (links[kind] || '').trim();
     if (!u) return '';
     var sep = u.indexOf('?') === -1 ? '?' : '&';
-    return u + sep + 'hide_gdpr_banner=1&primary_color=a97a2e';
+    // Calendly look: hide the event details (the page already shows them),
+    // hide the cookie banner, white background, navy text and buttons.
+    return u + sep + 'hide_event_type_details=1&hide_gdpr_banner=1' +
+      '&background_color=ffffff&text_color=1e3145&primary_color=1e3145';
   }
 
   function mailLink(text) {

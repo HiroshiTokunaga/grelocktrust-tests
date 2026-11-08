@@ -7,8 +7,8 @@
   --ink: #1E3145;
   --body: #3A4757;
   --muted: #5F6C7B;
-  --gold: #BC8F45;
-  --gold-btn: #A97A2E;
+  --gold: #C3903C;      /* brand gold */
+  --gold-btn: #9C7226;  /* brand dark gold, for buttons with white text */
   --gold-head: #8F6A27;
   --gold-text: #7E5B1C;
   --line: rgba(30, 49, 69, .13);
