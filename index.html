@@ -11,9 +11,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
-<script src="config.js?v=6"></script>
-<script src="main.js?v=6" defer></script>
+<link rel="stylesheet" href="style.css?v=7">
+<script src="config.js?v=7"></script>
+<script src="main.js?v=7" defer></script>
 </head>
 <body>
 
@@ -86,8 +86,7 @@
     </div>
   </section>
 
-  <!-- Gift: someone books and pays for a parent or loved one.
-       The calendar opens in place when they click the button. -->
+  <!-- Gift: someone books and pays for a parent or loved one -->
   <section class="gift" id="gift" tabindex="-1">
     <div class="wrap">
       <h2>Give a session to someone you love</h2>
@@ -97,14 +96,9 @@
         <li><strong>We call them before the session</strong> to introduce ourselves and answer their questions. If the time doesn't suit them, we'll find a better one together.</li>
       </ol>
       <p class="gift-note">If they'd rather not go ahead, we'll refund you in full.</p>
-      <button class="btn" type="button" id="giftButton" aria-controls="giftPanel" aria-expanded="false">Choose a time for them</button>
       <p class="gift-fallback" hidden>To book a gift, <span class="help-email">write to us</span> and we'll set it up with you.</p>
 
-      <div class="panels">
-        <div class="panel is-off" id="giftPanel" aria-hidden="true">
-          <div class="calendar" data-calendar="gift"></div>
-        </div>
-      </div>
+      <div class="calendar" id="giftPanel" data-calendar="gift"></div>
 
       <div class="booked" id="giftBooked" hidden role="status">
         <h3>Thank you for your gift.</h3>

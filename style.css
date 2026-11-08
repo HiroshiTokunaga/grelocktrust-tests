@@ -211,9 +211,9 @@ button.btn { border: 0; cursor: pointer; font-family: inherit; line-height: inhe
 /* Gift: a white band like the booking area, so its calendar sits the same way */
 .gift { background: var(--surface); padding: clamp(36px, 5vw, 56px) 0; scroll-margin-top: 0; }
 .gift .steps, .gift-note { max-width: var(--narrow); }
-.gift-note { font-size: 18px; color: var(--muted); margin-bottom: 20px; }
+.gift-note { font-size: 18px; color: var(--muted); margin-bottom: 8px; }
 .gift-fallback { margin: 0; color: var(--muted); }
-#giftPanel:not(.is-off) { margin-top: 8px; scroll-margin-top: 16px; }
+
 
 /* FAQ */
 .faq { background: var(--surface); border-top: 1px solid var(--line); padding: clamp(56px, 8vw, 96px) 0; }

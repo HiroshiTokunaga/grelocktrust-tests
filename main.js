@@ -111,19 +111,8 @@
   });
   choose('welcome');
 
-  /* Gift: the button opens the gift calendar in place, below the steps */
-  var giftButton = document.getElementById('giftButton');
-  var giftPanel = document.getElementById('giftPanel');
-  if (links.gift) {
-    giftButton.addEventListener('click', function () {
-      giftPanel.classList.remove('is-off');
-      giftPanel.setAttribute('aria-hidden', 'false');
-      giftButton.setAttribute('aria-expanded', 'true');
-      giftButton.hidden = true;
-      giftPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  } else {
-    giftButton.hidden = true;
+  /* Gift: if there is no gift link, show the email line instead of the refund note */
+  if (!links.gift) {
     document.querySelector('.gift-fallback').hidden = false;
     document.querySelector('.gift-note').hidden = true;
   }
