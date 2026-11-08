@@ -48,9 +48,35 @@
     document.getElementById('videoFrame').appendChild(frame);
   }
 
-  /* Load Calendly's script once, then run anything waiting for it */
-  var waiting = [];
+  /* Calendars for the two self-booking sessions. This follows Calendly's own
+     embed code: each calendar box carries its link in data-url BEFORE Calendly's
+     script loads, and the script fills every box in automatically. */
+  function buildCalendar(kind) {
+    var holder = document.querySelector('[data-calendar="' + kind + '"]');
+    var url = urlFor(kind);
+    if (!url) {
+      holder.innerHTML =
+        '<div class="calendar-fallback"><p class="fallback-title">Online booking is opening soon.</p>' +
+        '<p>To book now, please email us and we\'ll find a time with you.</p></div>';
+      if (email) {
+        var p = holder.querySelector('.calendar-fallback p:last-child');
+        p.textContent = 'To book now, email ';
+        p.appendChild(mailLink());
+        p.appendChild(document.createTextNode(" and we'll find a time with you."));
+      }
+      return;
+    }
+    var widget = document.createElement('div');
+    widget.className = 'calendly-inline-widget';
+    widget.setAttribute('data-url', url);
+    holder.appendChild(widget);
+  }
+  buildCalendar('welcome');
+  buildCalendar('full');
+
+  /* Then load Calendly's script once */
   var calendlyReady = false;
+  var waiting = [];
   function withCalendly(fn) {
     if (calendlyReady) { fn(); return; }
     waiting.push(fn);
@@ -71,34 +97,6 @@
     document.body.appendChild(s);
   }
 
-  /* Calendars for the two self-booking sessions. Each is built the first time
-     its option is shown, so the page doesn't load both at once. */
-  var built = {};
-  function buildCalendar(kind) {
-    if (built[kind]) return;
-    built[kind] = true;
-    var holder = document.querySelector('[data-calendar="' + kind + '"]');
-    var url = urlFor(kind);
-    if (!url) {
-      holder.innerHTML =
-        '<div class="calendar-fallback"><p class="fallback-title">Online booking is opening soon.</p>' +
-        '<p>To book now, please email us and we\'ll find a time with you.</p></div>';
-      if (email) {
-        var p = holder.querySelector('.calendar-fallback p:last-child');
-        p.textContent = 'To book now, email ';
-        p.appendChild(mailLink());
-        p.appendChild(document.createTextNode(" and we'll find a time with you."));
-      }
-      return;
-    }
-    var widget = document.createElement('div');
-    widget.className = 'calendly-inline-widget';
-    holder.appendChild(widget);
-    withCalendly(function () {
-      window.Calendly.initInlineWidget({ url: url, parentElement: widget });
-    });
-  }
-
   /* The switch between Welcome Session and Digital Safety Session */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.switch-option'));
   var lastBooked = 'welcome';
@@ -111,7 +109,6 @@
       if (on && focusTab) tab.focus();
     });
     lastBooked = kind;
-    buildCalendar(kind);
   }
   tabs.forEach(function (tab, i) {
     tab.addEventListener('click', function () { choose(tab.getAttribute('data-session')); });
