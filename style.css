@@ -124,6 +124,9 @@ button.btn { border: 0; cursor: pointer; font-family: inherit; line-height: inhe
 }
 .hero-content > p { font-size: 19px; color: var(--body); max-width: 31em; }
 .hero-content > p + p { margin-bottom: 1.1em; }
+/* "Trust" in the name, in gold */
+.brand-accent { color: var(--gold-head); }
+.foot .brand-accent { color: var(--gold); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px 16px; }
 .hero-note { font-size: 17px !important; color: var(--muted) !important; margin: .9em 0 0 !important; }
 
