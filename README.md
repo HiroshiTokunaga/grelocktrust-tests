@@ -32,3 +32,7 @@ Hosted on GitHub Pages from the `main` branch. To use greylocktrust.com instead 
 ## Testing a booking
 
 Calendly's Stripe connection has no test mode, so Stripe test cards won't work there. Instead, set the event price to $1, book a slot yourself with your own card, check the confirmation email and Zoom link, refund the $1 from the Stripe Dashboard, then set the price back to $200.
+
+## After changing style.css, main.js or config.js
+
+Browsers keep saved copies of these files for a few minutes. In `index.html`, raise the `?v=` number after each file name (for example `?v=3` to `?v=4`) so visitors get the new version right away.
