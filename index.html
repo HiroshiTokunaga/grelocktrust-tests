@@ -30,8 +30,11 @@
         </a>
         <h1>A guide through the modern digital world.</h1>
         <p>Your accounts, devices, and personal information hold more of your life every year. Keeping it all working, and private, can feel overwhelming. You don't have to navigate it alone.</p>
-        <p>Book a session with one of our privacy advisors to make sure your digital life is secure.</p>
-        <a class="btn" href="#book">Find my advisor</a>
+        <p>Start with a free 20-minute welcome session with one of our advisors. We'll help you see what matters most, and what a session with us looks like.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#book" data-choose="welcome">Protect myself</a>
+          <a class="btn btn-ghost" href="#gift">Protect a loved one</a>
+        </div>
         <p class="hero-note">A privacy advisor should empower you, not overwhelm you.</p>
       </div>
     </div>
@@ -46,24 +49,51 @@
     </div>
   </section>
 
-  <!-- Booking -->
+  <!-- Booking: a switch between the free Welcome Session and the full session -->
   <section class="book" id="book" tabindex="-1">
     <div class="wrap">
       <div class="narrow">
-        <h2>Book your session</h2>
-        <ol class="steps">
-          <li><strong>Pick a day and time</strong> that suits you in the calendar below.</li>
-          <li><strong>Pay $200 securely.</strong> Your card is handled by Stripe, a payment company used by millions of businesses. We never see your card number.</li>
-          <li><strong>Watch for an email</strong> with your Zoom link and your advisor's name.</li>
-        </ol>
-        <p class="promise">If your session wasn't worth it to you, we refund the full amount.</p>
+        <h2>Book a session for yourself</h2>
+        <p class="lead">Most people start with the free welcome session. If you already know you'd like the full session, you can book it directly.</p>
       </div>
 
-      <div class="calendar" id="calendar">
-        <div class="calendar-fallback" id="calendarFallback">
-          <p class="fallback-title">Online booking is opening soon.</p>
-          <p id="fallbackText">To book now, please email us and we'll find a time with you.</p>
+      <div class="switch" role="tablist" aria-label="Choose a session">
+        <button class="switch-option" role="tab" id="tab-welcome" aria-controls="panel-welcome" aria-selected="true" data-session="welcome">
+          <span class="switch-name">Welcome Session</span>
+          <span class="switch-meta">Free · 20 minutes</span>
+        </button>
+        <button class="switch-option" role="tab" id="tab-full" aria-controls="panel-full" aria-selected="false" tabindex="-1" data-session="full">
+          <span class="switch-name">Digital Safety Session</span>
+          <span class="switch-meta">$200 · 90 minutes</span>
+        </button>
+      </div>
+
+      <!-- Welcome Session -->
+      <div class="panel" role="tabpanel" id="panel-welcome" aria-labelledby="tab-welcome">
+        <div class="narrow">
+          <p class="panel-intro">In this 20-minute Zoom call, your advisor will help you understand why your online privacy and safety matter, and what a session with us looks like. We're here to be your guide.</p>
+          <ol class="steps">
+            <li><strong>Pick a day and time</strong> that suits you in the calendar below. No payment needed.</li>
+            <li><strong>Watch for an email</strong> with your Zoom link and your advisor's name.</li>
+            <li><strong>Meet your advisor.</strong> If you'd like to continue, you can book your full session together at the end.</li>
+          </ol>
+          <p class="promise">We will never ask you to give us remote access to your devices, or to tell us any passwords on this call.</p>
         </div>
+        <div class="calendar" data-calendar="welcome"></div>
+      </div>
+
+      <!-- Digital Safety Session -->
+      <div class="panel" role="tabpanel" id="panel-full" aria-labelledby="tab-full" hidden>
+        <div class="narrow">
+          <p class="panel-intro">Side by side with your advisor over Zoom, you'll check and strengthen the safety and privacy settings on your phone, computer, email, and important accounts.</p>
+          <ol class="steps">
+            <li><strong>Pick a day and time</strong> that suits you in the calendar below.</li>
+            <li><strong>Pay $200 securely.</strong> Your card is handled by Stripe, a payment company used by millions of businesses. We never see your card number.</li>
+            <li><strong>Watch for an email</strong> with your Zoom link and your advisor's name.</li>
+          </ol>
+          <p class="promise">If your session wasn't worth it to you, we refund the full amount.</p>
+        </div>
+        <div class="calendar" data-calendar="full"></div>
       </div>
 
       <div class="booked" id="booked" hidden role="status">
@@ -71,7 +101,30 @@
         <p>A confirmation email with your Zoom link is on its way. If you don't see it within a few minutes, please check your spam folder or write to us.</p>
       </div>
 
-      <p class="help-line" id="helpLine">Prefer to book by email? <span id="helpEmail">Write to us</span> and we'll set it up for you.</p>
+      <p class="help-line"><span class="help-text">Prefer to book by email? <span class="help-email">Write to us</span> and we'll set it up for you.</span></p>
+    </div>
+  </section>
+
+  <!-- Gift: someone books and pays for a parent or loved one -->
+  <section class="gift" id="gift" tabindex="-1">
+    <div class="wrap">
+      <div class="gift-card">
+        <div class="gift-text">
+          <h2>Give a loved one a Digital Safety Session</h2>
+          <p>Book a 90-minute session for a parent, grandparent or friend. $200, with a full refund if they decide not to do it.</p>
+          <ol class="steps">
+            <li><strong>Choose a time</strong> you think will suit them, and pay securely.</li>
+            <li><strong>Add their email as a guest</strong> on the booking form, so they receive the Zoom invitation.</li>
+            <li><strong>We call them first.</strong> Their advisor introduces themselves, explains the session and makes sure they'd like to do it. They can move the time with us whenever they need.</li>
+          </ol>
+          <button class="btn" type="button" id="giftButton">Choose a time for them</button>
+          <div class="gift-fallback" hidden><p class="help-text">To book a gift, <span class="help-email">write to us</span> and we'll set it up with you.</p></div>
+          <div class="booked" id="giftBooked" hidden role="status">
+            <h3>Thank you for your gift.</h3>
+            <p>A confirmation is on its way to your email. Their advisor will call them before the session to introduce themselves.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -81,8 +134,23 @@
       <h2>Common questions</h2>
 
       <details>
-        <summary>What happens in a session?</summary>
-        <p>Over about 90 minutes on Zoom, your advisor goes through your phone, your web browser, your important accounts and your passwords with you. You make each change yourself while your advisor explains what it does and why it matters.</p>
+        <summary>What's the difference between the two sessions?</summary>
+        <p>The free 20-minute welcome session is a conversation. You meet your advisor, learn why your online privacy and safety matter, and hear what a full session would cover. Nothing on your devices is changed. The 90-minute Digital Safety Session is where you and your advisor actually check and strengthen your settings together.</p>
+      </details>
+
+      <details>
+        <summary>What happens in the full session?</summary>
+        <p>Over about 90 minutes on Zoom, your advisor walks you through the safety and privacy settings on your phone, computer, email and important accounts. You make each change yourself while your advisor explains what it does and why it matters. Afterward, you get a one-page summary of what you did and why.</p>
+      </details>
+
+      <details>
+        <summary>Can you help with other tech questions?</summary>
+        <p>Yes. We start with what matters most, your digital safety and privacy. For anything else in your digital life, tell your advisor, and we can book a separate session for it.</p>
+      </details>
+
+      <details>
+        <summary>Can I book a session for my parent?</summary>
+        <p>Yes. Use "Give a loved one a session" on this page. Their advisor will call them first to introduce themselves and make sure they'd like to do it. If they decide not to, you get a full refund.</p>
       </details>
 
       <details>

@@ -1,12 +1,18 @@
 # Greylock Trust booking page
 
-A one-page website where clients learn what a Greylock Trust session covers, pick a time in Calendly, and pay $200. Calendly charges the card through the company's Stripe account, so this site has no payment code and stores no client data.
+A one-page website where clients book one of three Calendly events: a free 20-minute Welcome Session, the $200 Digital Safety Session, or a $200 gift session for a loved one. Calendly charges paid sessions through the company's Stripe account, so this site has no payment code and stores no client data.
+
+## How the page is laid out
+
+- Hero: "Protect myself" opens the booking section on the Welcome Session. "Protect a loved one" jumps to the gift section.
+- Booking: a two-option switch between the Welcome Session (selected first) and the Digital Safety Session. Each shows its own steps and its own inline calendar.
+- Gift: a card below the booking section. Its button opens the gift calendar in a pop-up.
 
 ## Changing the settings
 
 Open `config.js`. It has three settings:
 
-- `calendlyUrl`: the Calendly link for the onboarding event. While it is empty, the page asks people to email instead.
+- `calendly`: the three Calendly event links (`welcome`, `full`, `gift`). If one is empty, that part of the page asks people to email instead.
 - `contactEmail`: the address shown to clients.
 - `videoUrl`: an embed link for the intro video. Empty shows a "coming soon" box.
 

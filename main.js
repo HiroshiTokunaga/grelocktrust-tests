@@ -1,12 +1,19 @@
 /* Greylock Trust booking page
-   Reads config.js and fills in the calendar, contact email and video. */
+   Reads config.js and fills in the calendars, contact email and video. */
 (function () {
   'use strict';
 
   var cfg = window.GREYLOCK_CONFIG || {};
+  var links = cfg.calendly || {};
   var email = (cfg.contactEmail || '').trim();
-  var calendly = (cfg.calendlyUrl || '').trim();
   var video = (cfg.videoUrl || '').trim();
+
+  function urlFor(kind) {
+    var u = (links[kind] || '').trim();
+    if (!u) return '';
+    var sep = u.indexOf('?') === -1 ? '?' : '&';
+    return u + sep + 'hide_gdpr_banner=1&primary_color=a97a2e';
+  }
 
   function mailLink(text) {
     var a = document.createElement('a');
@@ -15,19 +22,16 @@
     return a;
   }
 
-  /* Contact email in the footer, help line and fallback message */
-  var helpLine = document.getElementById('helpLine');
+  /* Contact email in the footer and help lines */
   if (email) {
     document.getElementById('footEmail').appendChild(mailLink());
-    var helpEmail = document.getElementById('helpEmail');
-    helpEmail.textContent = '';
-    helpEmail.appendChild(mailLink('Write to us at ' + email));
-    var fallbackText = document.getElementById('fallbackText');
-    fallbackText.textContent = 'To book now, email ';
-    fallbackText.appendChild(mailLink());
-    fallbackText.appendChild(document.createTextNode(" and we'll find a time with you."));
+    document.querySelectorAll('.help-email').forEach(function (el) {
+      var label = el.textContent;
+      el.textContent = '';
+      el.appendChild(mailLink(label + ' at ' + email));
+    });
   } else {
-    helpLine.hidden = true;
+    document.querySelectorAll('.help-line').forEach(function (el) { el.hidden = true; });
   }
 
   /* Intro video: replaces the "coming soon" placeholder once a link is set */
@@ -41,37 +45,110 @@
     document.getElementById('videoFrame').appendChild(frame);
   }
 
-  /* Calendly calendar, only when a link is set */
-  if (calendly) {
-    var sep = calendly.indexOf('?') === -1 ? '?' : '&';
-    var url = calendly + sep + 'hide_gdpr_banner=1&primary_color=c3903c';
-
-    var holder = document.getElementById('calendar');
-    document.getElementById('calendarFallback').remove();
-    var widget = document.createElement('div');
-    widget.className = 'calendly-inline-widget';
-    widget.setAttribute('data-url', url);
-    holder.appendChild(widget);
+  /* Load Calendly's script once, then run anything waiting for it */
+  var waiting = [];
+  var calendlyReady = false;
+  function withCalendly(fn) {
+    if (calendlyReady) { fn(); return; }
+    waiting.push(fn);
+  }
+  if (links.welcome || links.full || links.gift) {
+    var css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'https://assets.calendly.com/assets/external/widget.css';
+    document.head.appendChild(css);
 
     var s = document.createElement('script');
     s.src = 'https://assets.calendly.com/assets/external/widget.js';
     s.async = true;
+    s.onload = function () {
+      calendlyReady = true;
+      waiting.splice(0).forEach(function (fn) { fn(); });
+    };
     document.body.appendChild(s);
   }
 
-  /* When Calendly reports a finished booking, show a plain thank-you under it */
+  /* Calendars for the two self-booking sessions. Each is built the first time
+     its option is shown, so the page doesn't load both at once. */
+  var built = {};
+  function buildCalendar(kind) {
+    if (built[kind]) return;
+    built[kind] = true;
+    var holder = document.querySelector('[data-calendar="' + kind + '"]');
+    var url = urlFor(kind);
+    if (!url) {
+      holder.innerHTML =
+        '<div class="calendar-fallback"><p class="fallback-title">Online booking is opening soon.</p>' +
+        '<p>To book now, please email us and we\'ll find a time with you.</p></div>';
+      if (email) {
+        var p = holder.querySelector('.calendar-fallback p:last-child');
+        p.textContent = 'To book now, email ';
+        p.appendChild(mailLink());
+        p.appendChild(document.createTextNode(" and we'll find a time with you."));
+      }
+      return;
+    }
+    var widget = document.createElement('div');
+    widget.className = 'calendly-inline-widget';
+    holder.appendChild(widget);
+    withCalendly(function () {
+      window.Calendly.initInlineWidget({ url: url, parentElement: widget });
+    });
+  }
+
+  /* The switch between Welcome Session and Digital Safety Session */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.switch-option'));
+  var lastBooked = 'welcome';
+  function choose(kind, focusTab) {
+    tabs.forEach(function (tab) {
+      var on = tab.getAttribute('data-session') === kind;
+      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      tab.tabIndex = on ? 0 : -1;
+      document.getElementById(tab.getAttribute('aria-controls')).hidden = !on;
+      if (on && focusTab) tab.focus();
+    });
+    lastBooked = kind;
+    buildCalendar(kind);
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { choose(tab.getAttribute('data-session')); });
+    tab.addEventListener('keydown', function (e) {
+      var next = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = tabs[(i + 1) % tabs.length];
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (next) { e.preventDefault(); choose(next.getAttribute('data-session'), true); }
+    });
+  });
+  choose('welcome');
+
+  /* Gift: opens the gift calendar in a pop-up window over the page */
+  var giftButton = document.getElementById('giftButton');
+  var giftUrl = urlFor('gift');
+  if (giftUrl) {
+    giftButton.addEventListener('click', function () {
+      lastBooked = 'gift';
+      withCalendly(function () { window.Calendly.initPopupWidget({ url: giftUrl }); });
+    });
+  } else {
+    giftButton.hidden = true;
+    document.querySelector('.gift-fallback').hidden = false;
+  }
+
+  /* When Calendly reports a finished booking, show a plain thank-you */
   window.addEventListener('message', function (e) {
     if (e.origin !== 'https://calendly.com') return;
     if (e.data && e.data.event === 'calendly.event_scheduled') {
-      var booked = document.getElementById('booked');
-      booked.hidden = false;
+      document.getElementById(lastBooked === 'gift' ? 'giftBooked' : 'booked').hidden = false;
     }
   });
 
-  /* Clicking "Book a session" moves keyboard focus to the booking section too */
-  document.querySelectorAll('a[href="#book"]').forEach(function (a) {
+  /* Hero buttons: "Protect myself" opens the Welcome Session; both move keyboard focus to their section */
+  document.querySelectorAll('a[href="#book"], a[href="#gift"]').forEach(function (a) {
     a.addEventListener('click', function () {
-      setTimeout(function () { document.getElementById('book').focus({ preventScroll: true }); }, 0);
+      var kind = a.getAttribute('data-choose');
+      if (kind) choose(kind);
+      var target = document.querySelector(a.getAttribute('href'));
+      setTimeout(function () { target.focus({ preventScroll: true }); }, 0);
     });
   });
 })();
