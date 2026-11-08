@@ -12,9 +12,9 @@
     var u = (links[kind] || '').trim();
     if (!u) return '';
     var sep = u.indexOf('?') === -1 ? '?' : '&';
-    // Calendly look: hide the event details (the page already shows them),
-    // hide the cookie banner, white background, navy text and buttons.
-    return u + sep + 'hide_event_type_details=1&hide_gdpr_banner=1' +
+    // Calendly look: show the event details panel, hide the cookie banner,
+    // white background, navy text and buttons.
+    return u + sep + 'hide_gdpr_banner=1' +
       '&background_color=ffffff&text_color=1e3145&primary_color=1e3145';
   }
 
@@ -69,6 +69,8 @@
     var widget = document.createElement('div');
     widget.className = 'calendly-inline-widget';
     widget.setAttribute('data-url', url);
+    // Calendly grows or shrinks the calendar to fit its content
+    widget.setAttribute('data-resize', 'true');
     holder.appendChild(widget);
   }
   buildCalendar('welcome');
@@ -105,7 +107,11 @@
       var on = tab.getAttribute('data-session') === kind;
       tab.setAttribute('aria-selected', on ? 'true' : 'false');
       tab.tabIndex = on ? 0 : -1;
-      document.getElementById(tab.getAttribute('aria-controls')).hidden = !on;
+      // The other calendar stays laid out off-screen (not display:none),
+      // so Calendly can size it correctly before it is shown.
+      var panel = document.getElementById(tab.getAttribute('aria-controls'));
+      panel.classList.toggle('is-off', !on);
+      panel.setAttribute('aria-hidden', on ? 'false' : 'true');
       if (on && focusTab) tab.focus();
     });
     lastBooked = kind;
@@ -132,6 +138,7 @@
   } else {
     giftButton.hidden = true;
     document.querySelector('.gift-fallback').hidden = false;
+    document.querySelector('.gift-note').hidden = true;
   }
 
   /* When Calendly reports a finished booking, show a plain thank-you */
