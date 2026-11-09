@@ -21,5 +21,5 @@ window.GREYLOCK_CONFIG = {
   // Optional: a YouTube or Vimeo EMBED link for the intro video.
   // YouTube example: "https://www.youtube-nocookie.com/embed/VIDEO_ID"
   // Leave empty to show a "coming soon" box in its place.
-  videoUrl: ""
+  videoUrl: "https://www.youtube-nocookie.com/embed/YAM4hsmhIrs?rel=0"
 };
